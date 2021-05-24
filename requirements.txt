@@ -1,7 +1,13 @@
+tensorflow==2.3.0
 wandb
 matplotlib
-numpy
+numpy==1.16.0
 pycocotools
 scikit-image
 imageio
-pandas
+requests~=2.23.0
+six~=1.15.0
+tornado~=5.1.0
+pandas==1.1.0
+imgaug==0.4.0
+folium==0.2.1

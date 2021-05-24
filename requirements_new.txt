@@ -1,0 +1,12 @@
+wandb
+matplotlib
+numpy
+pycocotools
+scikit-image
+imageio
+requests
+six
+tornado
+pandas
+imgaug==0.4.0
+folium==0.2.1
