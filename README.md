@@ -1,4 +1,4 @@
-# DETR : End-to-End Object Detection with Transformers (Tensorflow)
+# DETR :  End-to-End Object Detection with Transformers (Tensorflow)
 
 Tensorflow implementation of DETR : Object Detection with Transformers, including code for inference, training, and finetuning. DETR is a promising model that brings widely adopted transformers to vision models. We believe that models based on convolution and transformers will soon become the default choice for most practitioners because of the simplicity of the training procedure: NMS and anchors free! Therefore this repository is a step toward making this type of architecture widely available. 
 
