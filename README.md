@@ -1,28 +1,19 @@
 # DETR :  End-to-End Object Detection with Transformers (Tensorflow)
 
-Tensorflow implementation of DETR : Object Detection with Transformers, including code for inference, training, and finetuning. DETR is a promising model that brings widely adopted transformers to vision models. We believe that models based on convolution and transformers will soon become the default choice for most practitioners because of the simplicity of the training procedure: NMS and anchors free! Therefore this repository is a step toward making this type of architecture widely available. 
+Tensorflow implementation of DETR : Object Detection with Transformers, including code for inference, training, and finetuning. DETR is a promising model that brings widely adopted transformers to vision models.
 
 * [1. Install](#install)
 * [2. Datasets](#datasets)
-* [3. Tutorials](#tutorials)
-* [4. Finetuning](#finetuning)
-* [5. Training](#training)
-* [5. inference](#inference)
-* [6. Acknowledgement](#acknowledgement)
+* [3. Finetuning](#finetuning)
+* [4. Training](#training)
 
 
 <b>DETR paper:</b> https://arxiv.org/pdf/2005.12872.pdf <br>
 <b>Torch implementation: https://github.com/facebookresearch/detr</b>
 
-<img src="images/detr-figure.png"></img>
 
 <b>About this implementation:</b> This repository includes codes to run an inference with the original model's weights (based on the PyTorch weights), to train the model from scratch (multi-GPU training support coming soon) as well as examples to finetune the model on your dataset. Unlike the PyTorch implementation, the training uses fixed image sizes and a standard Adam optimizer with gradient norm clipping.
 
-Additionally, our logging system is based on https://www.wandb.com/ so that you can get a great visualization of your model performance!
-
-- Checkout our logging board with the reports here: https://wandb.ai/thibault-neveu/detr-tensorflow-log
-
-<img src="images/wandb_logging.png"></img>
 
 ## Install
 
@@ -47,25 +38,7 @@ pip install -r requirements.txt
 
 ## Datasets
 
-
-This repository currently supports three dataset formats: **COCO**, **VOC**, and **Tensorflow Object detection csv**. The easiest way to get started is to set up your dataset based on one of these formats. Along with the datasets, we provide a code example to finetune your model.
-Finally, we provide a jupyter notebook to help you understand how to load a dataset, set up a custom dataset, and finetune your model.
-
-<img src="images/datasetsupport.png"></img>
-
-## Tutorials
-
-To get started with the repository you can check the following Jupyter notebooks:
-
-- ✍ [DETR Tensorflow - How to load a dataset.ipynb](https://github.com/Visual-Behavior/detr-tensorflow/blob/main/notebooks/How%20to%20load%20a%20dataset.ipynb)
-- ✍ [DETR Tensorflow - Finetuning tutorial.ipynb](https://github.com/Visual-Behavior/detr-tensorflow/blob/main/notebooks/DETR%20Tensorflow%20-%20%20Finetuning%20tutorial.ipynb)
-- ✍ [DETR Tensorflow - How to setup a custom dataset.ipynb](https://github.com/Visual-Behavior/detr-tensorflow/blob/main/notebooks/DETR%20Tensorflow%20-%20%20How%20to%20setup%20a%20custom%20dataset.ipynb)
-
-As well as the logging board on wandb https://wandb.ai/thibault-neveu/detr-tensorflow-log and this report:
-
-- 🚀 [Finetuning DETR on Tensorflow - A step by step guide](https://wandb.ai/thibault-neveu/detr-tensorflow-log/reports/Finetuning-DETR-on-Tensorflow-A-step-by-step-tutorial--VmlldzozOTYyNzQ)
-
-
+This repository currently supports three dataset formats: **COCO**, **VOC**, and **Tensorflow Object detection csv**. The easiest way to get started is to set up your dataset based on one of these formats.
 ## Evaluation
 
 Run the following to evaluate the model using the pre-trained weights. 
@@ -73,25 +46,10 @@ Run the following to evaluate the model using the pre-trained weights.
 - **img_dir** is the image folder relative to the data_dir
 - **ann_file** is the validation annotation file relative to the data_dir
 
-Checkout ✍ [DETR Tensorflow - How to load a dataset.ipynb](https://github.com/Visual-Behavior/detr-tensorflow/blob/main/notebooks/How%20to%20load%20a%20dataset.ipynb) for more information about the supported dataset ans their usage.
 
 ```
 python eval.py --data_dir /path/to/coco/dataset --img_dir val2017 --ann_file annotations/instances_val2017.json
 ```
-
-Outputs:
-
-```
-       |  all  |  .50  |  .55  |  .60  |  .65  |  .70  |  .75  |  .80  |  .85  |  .90  |  .95  |
--------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-   box | 36.53 | 55.38 | 53.13 | 50.46 | 47.11 | 43.07 | 38.11 | 32.10 | 25.01 | 16.20 |  4.77 |
-  mask |  0.00 |  0.00 |  0.00 |  0.00 |  0.00 |  0.00 |  0.00 |  0.00 |  0.00 |  0.00 |  0.00 |
--------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-
-```
-
-The result is not the same as reported in the paper because the evaluation is run on the <b>original image size</b> and not on the larger images. The actual implementation resizes the image so that the shorter side is at least 800pixels and the longer side at most 1333.
-
 
 ## Finetuning
 
@@ -124,8 +82,6 @@ python finetune_voc.py --data_dir /home/thibault/data/VOCdevkit/VOC2012 --img_di
 - **data_dir** is the hardhatcsv dataset folder
 - **img_dir** and  **ann_file** set in the training file to load the training and validation differently
 
-Checkout ✍ [DETR Tensorflow - How to load a dataset.ipynb](https://github.com/Visual-Behavior/detr-tensorflow/blob/main/notebooks/How%20to%20load%20a%20dataset.ipynb) for more information about the supported dataset ans their usage.
-
 ```
 python  finetune_hardhat.py --data_dir /home/thibault/data/hardhat --batch_size 8 --target_batch 32 --log
 ```
@@ -142,17 +98,3 @@ python  finetune_hardhat.py --data_dir /home/thibault/data/hardhat --batch_size 
 python train_coco.py --data_dir /path/to/COCO --batch_size 8  --target_batch 32 --log
 ```
 
-## Inference
-
-Here is an example of running an inference with the model on your webcam.
-
-```
-python webcam_inference.py 
-```
-
-<img src="images/webcam_detr.png" width="400"></img>
-
-
-## Acknowledgement
-
-The pretrained weights of this models are originaly provide from the Facebook repository https://github.com/facebookresearch/detr and made avaiable in tensorflow in this repository: https://github.com/Leonardo-Blanger/detr_tensorflow
